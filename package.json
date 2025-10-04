@@ -1,0 +1,25 @@
+{
+  "name": "@grom.js/effectg",
+  "type": "module",
+  "version": "0.1.0",
+  "private": false,
+  "scripts": {
+    "gen": "bun run scripts/gen-bot-api.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.91.1",
+    "@effect/platform-bun": "^0.80.0",
+    "effect": "^3.17.14"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^5.4.1",
+    "@grom.js/bot-api-spec": "^0.3.2",
+    "@types/bun": "latest",
+    "eslint": "^9.36.0",
+    "eslint-plugin-format": "^1.0.1",
+    "ts-morph": "^27.0.0",
+    "typescript": "^5.9.3"
+  }
+}

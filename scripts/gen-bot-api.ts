@@ -1,0 +1,184 @@
+import type { ValueType } from '@grom.js/bot-api-spec'
+import type { SourceFile } from 'ts-morph'
+import { methods, types } from '@grom.js/bot-api-spec'
+import { Project, Writers } from 'ts-morph'
+
+async function main() {
+  const proj = new Project()
+  genTypes(proj.createSourceFile('./src/bot-api/types.gen.ts', {}, { overwrite: true }))
+  genMethods(proj.createSourceFile('./src/bot-api/methods.gen.ts', {}, { overwrite: true }))
+  genBotApiShape(proj.createSourceFile('./src/bot-api/BotApiShape.ts', {}, { overwrite: true }))
+  await proj.save()
+}
+
+function genTypes(f: SourceFile): void {
+  const opts: GenValueTypeOptions = {
+    apiType: name => name,
+    inputFile: 'UNEXPECTED',
+  }
+  for (const type of Object.values(types)) {
+    if (type.fields) {
+      f.addInterface({
+        isExported: true,
+        isDefaultExport: false,
+        name: type.name,
+        docs: [type.description.markdown],
+        properties: type.fields.map(field => ({
+          name: field.name,
+          type: genValueType(field.type, opts),
+          hasQuestionToken: !field.required,
+          docs: [field.description.markdown],
+        })),
+      })
+    }
+    else {
+      f.addTypeAlias({
+        isExported: true,
+        isDefaultExport: false,
+        name: type.name,
+        docs: [type.description.markdown],
+        type: genValueType({ type: 'union', types: type.oneOf }, opts),
+      })
+    }
+  }
+}
+
+function genMethods(f: SourceFile): void {
+  const opts: GenValueTypeOptions = {
+    apiType: name => `Types.${name}`,
+    inputFile: 'InputFile',
+  }
+  f.addImportDeclaration({
+    moduleSpecifier: './types.gen.ts',
+    isTypeOnly: true,
+    namespaceImport: 'Types',
+  })
+  f.addImportDeclaration({
+    moduleSpecifier: '../InputFile.ts',
+    isTypeOnly: true,
+    namedImports: ['InputFile'],
+  })
+  const iParams = f.addInterface({
+    name: 'MethodParams',
+    isExported: true,
+    isDefaultExport: false,
+  })
+  const iResults = f.addInterface({
+    name: 'MethodResults',
+    isExported: true,
+    isDefaultExport: false,
+  })
+  for (const { name, parameters, returnType } of Object.values(methods)) {
+    iParams.addProperty({
+      name,
+      hasQuestionToken: !(parameters.some(({ required }) => required)),
+      type: parameters.length > 0
+        ? Writers.objectType({
+            properties: parameters
+              .map(param => ({
+                name: param.name,
+                docs: [param.description.markdown],
+                type: genValueType(param.type, opts),
+                hasQuestionToken: !param.required,
+              })),
+          })
+        : 'Record<string, never>',
+    })
+    iResults.addProperty({
+      name,
+      hasQuestionToken: false,
+      type: genValueType(returnType, opts),
+    })
+  }
+}
+
+function genBotApiShape(f: SourceFile): void {
+  f.addImportDeclarations([
+    {
+      isTypeOnly: true,
+      namedImports: ['HttpClientError'],
+      moduleSpecifier: '@effect/platform/HttpClientError',
+    },
+    {
+      isTypeOnly: true,
+      namespaceImport: 'Effect',
+      moduleSpecifier: 'effect/Effect',
+    },
+    {
+      isTypeOnly: true,
+      namedImports: ['BotApiError'],
+      moduleSpecifier: './BotApiError',
+    },
+    {
+      isTypeOnly: true,
+      namedImports: ['MethodParams', 'MethodResults'],
+      moduleSpecifier: './methods.gen',
+    },
+  ])
+  f.addStatements([
+    (
+      'type MethodRequired<M extends keyof MethodParams> ='
+      + ' (parameters: MethodParams[M]) =>'
+      + ' Effect.Effect<MethodResults[M], HttpClientError | BotApiError>'
+    ),
+    (
+      'type MethodOptional<M extends keyof MethodParams> ='
+      + ' (parameters?: MethodParams[M]) =>'
+      + ' Effect.Effect<MethodResults[M], HttpClientError | BotApiError>'
+    ),
+  ])
+  f.addInterface({
+    isExported: true,
+    isDefaultExport: false,
+    name: 'BotApiShape',
+    properties: Object
+      .values(methods)
+      .map(({ name, description, parameters }) => ({
+        name,
+        docs: [description.markdown],
+        type: parameters.some(({ required }) => required)
+          ? `MethodRequired<'${name}'>`
+          : `MethodOptional<'${name}'>`,
+      })),
+  })
+}
+
+interface GenValueTypeOptions {
+  inputFile: string
+  apiType: (name: string) => string
+}
+
+function genValueType(
+  t: ValueType,
+  options: GenValueTypeOptions,
+): string {
+  switch (t.type) {
+    case 'str':
+      return t.literal != null
+        ? `"${t.literal}"`
+        : 'string'
+    case 'bool':
+      return t.literal != null
+        ? `${t.literal}`
+        : 'boolean'
+    case 'int32':
+      return t.literal != null
+        ? `${t.literal}`
+        : 'number'
+    case 'int52':
+    case 'float':
+      return 'number'
+    case 'input-file':
+      return options.inputFile
+    case 'api-type':
+      return options.apiType(t.name)
+    case 'array':
+      return `Array<${genValueType(t.of, options)}>`
+    case 'union':
+      return `${t.types.map(t => genValueType(t, options)).join(' | ')}`
+  }
+}
+
+if (import.meta.main) {
+  await main()
+}
