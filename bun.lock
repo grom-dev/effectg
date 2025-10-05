@@ -10,7 +10,7 @@
       },
       "devDependencies": {
         "@antfu/eslint-config": "^5.4.1",
-        "@grom.js/bot-api-spec": "^0.3.2",
+        "@grom.js/bot-api-spec": "^0.4.0",
         "@types/bun": "latest",
         "eslint": "^9.36.0",
         "eslint-plugin-format": "^1.0.1",
@@ -84,7 +84,7 @@
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.3.5", "", { "dependencies": { "@eslint/core": "^0.15.2", "levn": "^0.4.1" } }, "sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w=="],
 
-    "@grom.js/bot-api-spec": ["@grom.js/bot-api-spec@0.3.2", "", {}, "sha512-Gu1PR5UeslLTgJS+Cl28LIKCe3hznS1Oaws86r65oj8BiHUJC15HCu9JZ9Suyo9y4vz3PUMpxyYWejxK+aPEtA=="],
+    "@grom.js/bot-api-spec": ["@grom.js/bot-api-spec@0.4.0", "", {}, "sha512-QHX2LllL59w0jEDwqtmiPyLhf+fXn2KA/uTJ9jNjddsaNP78VOeSRF3N2YjksMLqyLIhmNMpbCQsidfWVVBgMw=="],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 

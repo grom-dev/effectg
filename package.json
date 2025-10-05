@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.4.1",
-    "@grom.js/bot-api-spec": "^0.3.2",
+    "@grom.js/bot-api-spec": "^0.4.0",
     "@types/bun": "latest",
     "eslint": "^9.36.0",
     "eslint-plugin-format": "^1.0.1",

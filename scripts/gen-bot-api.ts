@@ -165,7 +165,7 @@ function genValueType(
       return t.literal != null
         ? `${t.literal}`
         : 'number'
-    case 'int52':
+    case 'int53':
     case 'float':
       return 'number'
     case 'input-file':
