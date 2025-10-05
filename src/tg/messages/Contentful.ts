@@ -1,7 +1,7 @@
 import type { InputMessageContent } from '../InputMessageContent'
 
-export const messageContent = Symbol.for('effectg/messageContent')
+export const contentSymbol = Symbol.for('effectg/contentSymbol')
 
 export interface Contentful {
-  [messageContent]: () => InputMessageContent
+  [contentSymbol]: () => InputMessageContent
 }

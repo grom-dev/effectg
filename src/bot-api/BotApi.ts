@@ -6,10 +6,7 @@ import * as Context from 'effect/Context'
 import * as Effect from 'effect/Effect'
 import { BotApiError } from './BotApiError'
 
-export class BotApi extends Context.Tag('effectg/BotApi')<
-  BotApi,
-  BotApiShape
->() {}
+export class BotApi extends Context.Tag('effectg/BotApi')<BotApi, BotApiShape>() {}
 
 export interface BotApiOptions {
   client: HttpClient
@@ -17,7 +14,7 @@ export interface BotApiOptions {
   url?: 'prod' | 'test' | ((token: string, method: string) => URL)
 }
 
-export function make(options: BotApiOptions): BotApiShape {
+export function makeBotApi(options: BotApiOptions): BotApiShape {
   const {
     client,
     token,
@@ -61,11 +58,11 @@ export function make(options: BotApiOptions): BotApiShape {
         }
 
         yield* Effect.fail(
-          new BotApiError(
-            payload.error_code,
-            payload.description,
-            payload.parameters,
-          ),
+          new BotApiError({
+            code: payload.error_code,
+            description: payload.description,
+            parameters: payload.parameters,
+          }),
         )
       })
     },
