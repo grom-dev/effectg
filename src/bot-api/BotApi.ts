@@ -6,7 +6,7 @@ import * as Context from 'effect/Context'
 import * as Effect from 'effect/Effect'
 import { BotApiError } from './BotApiError'
 
-export class BotApi extends Context.Tag('@grom.js/effectg:BotApi')<
+export class BotApi extends Context.Tag('effectg/BotApi')<
   BotApi,
   BotApiShape
 >() {}
