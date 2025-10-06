@@ -1,4 +1,4 @@
-import type { Types } from '../../bot-api'
+import type { Types } from '../bot-api'
 import * as Data from 'effect/Data'
 
 export class LinkPreview extends Data.Class<{

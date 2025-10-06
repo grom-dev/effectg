@@ -1,24 +1,24 @@
 import type { MethodParams } from '../bot-api'
 import type { InputFile } from '../InputFile'
 import type { FormattedText } from './FormattedText'
-import type { LinkPreview } from './messages/LinkPreview'
+import type { LinkPreview } from './LinkPreview'
 import * as Data from 'effect/Data'
 
 /**
  * Content of a message to be sent.
  *
- * @see https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1_input_message_content.html
+ * @see {@link https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1_input_message_content.html td.td_api.InputMessageContent}
  */
-export type InputMessageContent
-  = | InputMessageText
-    | InputMessagePhoto
+export type MessageContent
+  = | TextMessage
+    | PhotoMessage
 
 /**
  * Content of a text message.
  *
- * @see https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1input_message_text.html
+ * @see {@link https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1input_message_text.html td.td_api.inputMessageText}
  */
-export class InputMessageText extends Data.TaggedClass('text')<{
+export class TextMessage extends Data.TaggedClass('text')<{
   text: FormattedText
   linkPreview?: LinkPreview
 }> {
@@ -33,12 +33,12 @@ export class InputMessageText extends Data.TaggedClass('text')<{
 /**
  * Content of a photo message.
  *
- * @see https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1input_message_photo.html
+ * @see {@link https://core.telegram.org/tdlib/docs/classtd_1_1td__api_1_1input_message_photo.html td.td_api.inputMessagePhoto}
  */
-export class InputMessagePhoto extends Data.TaggedClass('photo')<{
+export class PhotoMessage extends Data.TaggedClass('photo')<{
   photo: InputFile
   caption?: FormattedText
-  showCaptionAboveMedia?: boolean
+  captionLoc?: 'above' | 'below'
   hasSpoiler?: boolean
 }> {
   get sendParams(): Pick<MethodParams['sendPhoto'], 'photo' | 'caption' | 'caption_entities' | 'parse_mode' | 'show_caption_above_media' | 'has_spoiler'> {
@@ -52,7 +52,7 @@ export class InputMessagePhoto extends Data.TaggedClass('photo')<{
       caption,
       caption_entities,
       parse_mode,
-      show_caption_above_media: this.showCaptionAboveMedia,
+      show_caption_above_media: this.captionLoc === 'above',
       has_spoiler: this.hasSpoiler,
     }
   }
