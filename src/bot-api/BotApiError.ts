@@ -8,4 +8,8 @@ export class BotApiError extends Data.TaggedError('BotApiError')<{
   code: number
   description: string
   parameters?: Types.ResponseParameters
-}> {}
+}> {
+  override get message() {
+    return `(${this.code}) ${this.description}`
+  }
+}
