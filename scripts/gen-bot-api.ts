@@ -69,20 +69,21 @@ function genMethods(f: SourceFile): void {
     isDefaultExport: false,
   })
   for (const { name, parameters, returnType } of Object.values(methods)) {
+    const paramsOptional = !(parameters.some(({ required }) => required))
+    const typeSrc = parameters.length > 0
+      ? Writers.objectType({
+          properties: parameters
+            .map(param => ({
+              name: param.name,
+              docs: [param.description.markdown],
+              type: genValueType(param.type, opts),
+              hasQuestionToken: !param.required,
+            })),
+        })
+      : 'Record<string, never>'
     iParams.addProperty({
       name,
-      hasQuestionToken: !(parameters.some(({ required }) => required)),
-      type: parameters.length > 0
-        ? Writers.objectType({
-            properties: parameters
-              .map(param => ({
-                name: param.name,
-                docs: [param.description.markdown],
-                type: genValueType(param.type, opts),
-                hasQuestionToken: !param.required,
-              })),
-          })
-        : 'Record<string, never>',
+      type: paramsOptional ? Writers.unionType('void', typeSrc) : typeSrc,
     })
     iResults.addProperty({
       name,
@@ -117,13 +118,8 @@ function genBotApiShape(f: SourceFile): void {
   ])
   f.addStatements([
     (
-      'type MethodRequired<M extends keyof MethodParams> ='
+      'type Method<M extends keyof MethodParams> ='
       + ' (parameters: MethodParams[M]) =>'
-      + ' Effect.Effect<MethodResults[M], HttpClientError | BotApiError>'
-    ),
-    (
-      'type MethodOptional<M extends keyof MethodParams> ='
-      + ' (parameters?: MethodParams[M]) =>'
       + ' Effect.Effect<MethodResults[M], HttpClientError | BotApiError>'
     ),
   ])
@@ -133,12 +129,10 @@ function genBotApiShape(f: SourceFile): void {
     name: 'BotApiShape',
     properties: Object
       .values(methods)
-      .map(({ name, description, parameters }) => ({
+      .map(({ name, description }) => ({
         name,
         docs: [description.markdown],
-        type: parameters.some(({ required }) => required)
-          ? `MethodRequired<'${name}'>`
-          : `MethodOptional<'${name}'>`,
+        type: `Method<'${name}'>`,
       })),
   })
 }

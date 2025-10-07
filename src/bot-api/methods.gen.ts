@@ -2,7 +2,7 @@ import type { InputFile } from '../InputFile.ts'
 import type * as Types from './types.gen.ts'
 
 export interface MethodParams {
-  getUpdates?: {
+  getUpdates: void | {
     /** Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as [getUpdates](https://core.telegram.org/bots/api#getupdates) is called with an _offset_ higher than its _update\_id_. The negative offset can be specified to retrieve updates starting from _\-offset_ update from the end of the updates queue. All previous updates will be forgotten. */
     offset?: number
     /** Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100. */
@@ -36,14 +36,14 @@ export interface MethodParams {
     /** A secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request, 1-256 characters. Only characters `A-Z`, `a-z`, `0-9`, `_` and `-` are allowed. The header is useful to ensure that the request comes from a webhook set by you. */
     secret_token?: string
   }
-  deleteWebhook?: {
+  deleteWebhook: void | {
     /** Pass _True_ to drop all pending updates */
     drop_pending_updates?: boolean
   }
-  getWebhookInfo?: Record<string, never>
-  getMe?: Record<string, never>
-  logOut?: Record<string, never>
-  close?: Record<string, never>
+  getWebhookInfo: void | Record<string, never>
+  getMe: void | Record<string, never>
+  logOut: void | Record<string, never>
+  close: void | Record<string, never>
   sendMessage: {
     /** Unique identifier of the business connection on behalf of which the message will be sent */
     business_connection_id?: string
@@ -972,7 +972,7 @@ export interface MethodParams {
     /** Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`) */
     chat_id: number | string
   }
-  getForumTopicIconStickers?: Record<string, never>
+  getForumTopicIconStickers: void | Record<string, never>
   createForumTopic: {
     /** Unique identifier for the target chat or username of the target supergroup (in the format `@supergroupusername`) */
     chat_id: number | string
@@ -1077,69 +1077,69 @@ export interface MethodParams {
     /** A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands */
     language_code?: string
   }
-  deleteMyCommands?: {
+  deleteMyCommands: void | {
     /** An object, describing scope of users for which the commands are relevant. Defaults to [BotCommandScopeDefault](https://core.telegram.org/bots/api#botcommandscopedefault). */
     scope?: Types.BotCommandScope
     /** A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands */
     language_code?: string
   }
-  getMyCommands?: {
+  getMyCommands: void | {
     /** An object, describing scope of users. Defaults to [BotCommandScopeDefault](https://core.telegram.org/bots/api#botcommandscopedefault). */
     scope?: Types.BotCommandScope
     /** A two-letter ISO 639-1 language code or an empty string */
     language_code?: string
   }
-  setMyName?: {
+  setMyName: void | {
     /** New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language. */
     name?: string
     /** A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name. */
     language_code?: string
   }
-  getMyName?: {
+  getMyName: void | {
     /** A two-letter ISO 639-1 language code or an empty string */
     language_code?: string
   }
-  setMyDescription?: {
+  setMyDescription: void | {
     /** New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language. */
     description?: string
     /** A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description. */
     language_code?: string
   }
-  getMyDescription?: {
+  getMyDescription: void | {
     /** A two-letter ISO 639-1 language code or an empty string */
     language_code?: string
   }
-  setMyShortDescription?: {
+  setMyShortDescription: void | {
     /** New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language. */
     short_description?: string
     /** A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description. */
     language_code?: string
   }
-  getMyShortDescription?: {
+  getMyShortDescription: void | {
     /** A two-letter ISO 639-1 language code or an empty string */
     language_code?: string
   }
-  setChatMenuButton?: {
+  setChatMenuButton: void | {
     /** Unique identifier for the target private chat. If not specified, default bot's menu button will be changed */
     chat_id?: number
     /** An object for the bot's new menu button. Defaults to [MenuButtonDefault](https://core.telegram.org/bots/api#menubuttondefault) */
     menu_button?: Types.MenuButton
   }
-  getChatMenuButton?: {
+  getChatMenuButton: void | {
     /** Unique identifier for the target private chat. If not specified, default bot's menu button will be returned */
     chat_id?: number
   }
-  setMyDefaultAdministratorRights?: {
+  setMyDefaultAdministratorRights: void | {
     /** An object describing new default administrator rights. If not specified, the default administrator rights will be cleared. */
     rights?: Types.ChatAdministratorRights
     /** Pass _True_ to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed. */
     for_channels?: boolean
   }
-  getMyDefaultAdministratorRights?: {
+  getMyDefaultAdministratorRights: void | {
     /** Pass _True_ to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned. */
     for_channels?: boolean
   }
-  getAvailableGifts?: Record<string, never>
+  getAvailableGifts: void | Record<string, never>
   sendGift: {
     /** Required if _chat\_id_ is not specified. Unique identifier of the target user who will receive the gift. */
     user_id?: number
@@ -1364,7 +1364,7 @@ export interface MethodParams {
     /** An object for an [inline keyboard](https://core.telegram.org/bots/features#inline-keyboards). */
     reply_markup?: Types.InlineKeyboardMarkup
   }
-  editMessageCaption?: {
+  editMessageCaption: void | {
     /** Unique identifier of the business connection on behalf of which the message to be edited was sent */
     business_connection_id?: string
     /** Required if _inline\_message\_id_ is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) */
@@ -1422,7 +1422,7 @@ export interface MethodParams {
     /** An object for a new [inline keyboard](https://core.telegram.org/bots/features#inline-keyboards). */
     reply_markup?: Types.InlineKeyboardMarkup
   }
-  stopMessageLiveLocation?: {
+  stopMessageLiveLocation: void | {
     /** Unique identifier of the business connection on behalf of which the message to be edited was sent */
     business_connection_id?: string
     /** Required if _inline\_message\_id_ is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) */
@@ -1446,7 +1446,7 @@ export interface MethodParams {
     /** An object for the new inline keyboard for the message */
     reply_markup?: Types.InlineKeyboardMarkup
   }
-  editMessageReplyMarkup?: {
+  editMessageReplyMarkup: void | {
     /** Unique identifier of the business connection on behalf of which the message to be edited was sent */
     business_connection_id?: string
     /** Required if _inline\_message\_id_ is not specified. Unique identifier for the target chat or username of the target channel (in the format `@channelusername`) */
@@ -1788,8 +1788,8 @@ export interface MethodParams {
     /** Required if _ok_ is _False_. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user. */
     error_message?: string
   }
-  getMyStarBalance?: Record<string, never>
-  getStarTransactions?: {
+  getMyStarBalance: void | Record<string, never>
+  getStarTransactions: void | {
     /** Number of transactions to skip in the response */
     offset?: number
     /** The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100. */
