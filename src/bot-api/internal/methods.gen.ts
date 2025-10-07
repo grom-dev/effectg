@@ -1981,10 +1981,10 @@ export interface MethodResults {
   postStory: Types.Story
   editStory: Types.Story
   deleteStory: true
-  editMessageText: Types.Message | boolean
-  editMessageCaption: Types.Message | boolean
-  editMessageMedia: Types.Message | boolean
-  editMessageLiveLocation: Types.Message | boolean
+  editMessageText: Types.Message | true
+  editMessageCaption: Types.Message | true
+  editMessageMedia: Types.Message | true
+  editMessageLiveLocation: Types.Message | true
   stopMessageLiveLocation: Types.Message | true
   editMessageChecklist: Types.Message
   editMessageReplyMarkup: Types.Message | true

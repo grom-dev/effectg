@@ -5,9 +5,9 @@ import { Project, Writers } from 'ts-morph'
 
 async function main() {
   const proj = new Project()
-  genTypes(proj.createSourceFile('./src/bot-api/types.gen.ts', {}, { overwrite: true }))
-  genMethods(proj.createSourceFile('./src/bot-api/methods.gen.ts', {}, { overwrite: true }))
-  genBotApiShape(proj.createSourceFile('./src/bot-api/BotApiShape.ts', {}, { overwrite: true }))
+  genTypes(proj.createSourceFile('./src/bot-api/internal/types.gen.ts', {}, { overwrite: true }))
+  genMethods(proj.createSourceFile('./src/bot-api/internal/methods.gen.ts', {}, { overwrite: true }))
+  genBotApi(proj.createSourceFile('./src/bot-api/internal/botApi.gen.ts', {}, { overwrite: true }))
   await proj.save()
 }
 
@@ -93,46 +93,24 @@ function genMethods(f: SourceFile): void {
   }
 }
 
-function genBotApiShape(f: SourceFile): void {
+function genBotApi(f: SourceFile): void {
   f.addImportDeclarations([
     {
       isTypeOnly: true,
-      namedImports: ['HttpClientError'],
-      moduleSpecifier: '@effect/platform/HttpClientError',
+      namedImports: ['BotApiMethod'],
+      moduleSpecifier: './botApiMethod',
     },
-    {
-      isTypeOnly: true,
-      namespaceImport: 'Effect',
-      moduleSpecifier: 'effect/Effect',
-    },
-    {
-      isTypeOnly: true,
-      namedImports: ['BotApiError'],
-      moduleSpecifier: './BotApiError',
-    },
-    {
-      isTypeOnly: true,
-      namedImports: ['MethodParams', 'MethodResults'],
-      moduleSpecifier: './methods.gen',
-    },
-  ])
-  f.addStatements([
-    (
-      'type Method<M extends keyof MethodParams> ='
-      + ' (parameters: MethodParams[M]) =>'
-      + ' Effect.Effect<MethodResults[M], HttpClientError | BotApiError>'
-    ),
   ])
   f.addInterface({
     isExported: true,
     isDefaultExport: false,
-    name: 'BotApiShape',
+    name: 'BotApi',
     properties: Object
       .values(methods)
       .map(({ name, description }) => ({
         name,
         docs: [description.markdown],
-        type: `Method<'${name}'>`,
+        type: `BotApiMethod<'${name}'>`,
       })),
   })
 }

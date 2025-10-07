@@ -1,22 +1,19 @@
-import type { HttpClient } from '@effect/platform/HttpClient'
-import type { BotApiShape } from './BotApiShape'
-import type * as Types from './types.gen'
+import type { BotApi as BotApiShape } from './internal/botApi.gen'
 import * as HttpBody from '@effect/platform/HttpBody'
 import * as Context from 'effect/Context'
-import * as Effect from 'effect/Effect'
-import { BotApiError } from './BotApiError'
+import * as internal from './internal/botApi'
+
+export { BotApiError } from './internal/botApiError'
+export type { MethodParams, MethodResults } from './internal/methods.gen'
+export type * as Types from './internal/types.gen'
 
 export class BotApi extends Context.Tag('effectg/BotApi')<BotApi, BotApiShape>() {}
 
-export interface BotApiOptions {
-  client: HttpClient
+export function make(options: {
   token: string
   url?: 'prod' | 'test' | ((token: string, method: string) => URL)
-}
-
-export function makeBotApi(options: BotApiOptions): BotApiShape {
+}): BotApiShape {
   const {
-    client,
     token,
     url = 'prod',
   } = options
@@ -31,42 +28,13 @@ export function makeBotApi(options: BotApiOptions): BotApiShape {
   else if (url === 'test') {
     makeUrl = method => new URL(`https://api.telegram.org/bot${token}/test/${method}`)
   }
+  else {
+    throw new Error('Invalid "url" option.')
+  }
 
   const makeBody = (_method: string, params: unknown): HttpBody.HttpBody => {
     return HttpBody.unsafeJson(params)
   }
 
-  const impl = new Proxy({}, {
-    get: (_target, prop) => {
-      if (typeof prop !== 'string') {
-        return
-      }
-      const method = prop
-      return (params: Record<string, unknown> = {}) => Effect.gen(function* () {
-        const response = yield* client.post(makeUrl(method), {
-          body: makeBody(method, params),
-        })
-
-        // https://core.telegram.org/bots/api#making-requests
-        const payload = (yield* response.json) as (
-          | { ok: true, result: any, description?: string }
-          | { ok: false, error_code: number, description: string, parameters?: Types.ResponseParameters }
-        )
-
-        if (payload.ok) {
-          return payload.result
-        }
-
-        yield* Effect.fail(
-          new BotApiError({
-            code: payload.error_code,
-            description: payload.description,
-            parameters: payload.parameters,
-          }),
-        )
-      })
-    },
-  })
-
-  return impl as any
+  return internal.make({ makeUrl, makeBody })
 }
