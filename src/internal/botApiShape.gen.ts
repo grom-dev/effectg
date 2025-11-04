@@ -1,6 +1,6 @@
 import type { BotApiMethod } from './botApiMethod'
 
-export interface BotApi {
+export interface BotApiShape {
   /**
    * Use this method to receive incoming updates using long polling ([wiki](https://en.wikipedia.org/wiki/Push_technology#Long_polling)). Returns an Array of [Update](https://core.telegram.org/bots/api#update) objects.
    *

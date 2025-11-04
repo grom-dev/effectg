@@ -1,3 +1,9 @@
-Effectful library to interact with Telegram Bot API.
+Effectful library for crafting Telegram bots.
 
-> ⚠️ Work in progress.
+> [!WARNING]
+> Work in progress.
+
+## Features
+
+- Effectful and typesafe API.
+- Up-to-date and documented Bot API methods and types.

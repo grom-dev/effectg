@@ -5,9 +5,9 @@ import { Project, Writers } from 'ts-morph'
 
 async function main() {
   const proj = new Project()
-  genTypes(proj.createSourceFile('./src/bot-api/internal/types.gen.ts', {}, { overwrite: true }))
-  genMethods(proj.createSourceFile('./src/bot-api/internal/methods.gen.ts', {}, { overwrite: true }))
-  genBotApi(proj.createSourceFile('./src/bot-api/internal/botApi.gen.ts', {}, { overwrite: true }))
+  genTypes(proj.createSourceFile('./src/internal/botApiTypes.gen.ts', {}, { overwrite: true }))
+  genMethods(proj.createSourceFile('./src/internal/botApiMethods.gen.ts', {}, { overwrite: true }))
+  genBotApiShape(proj.createSourceFile('./src/internal/botApiShape.gen.ts', {}, { overwrite: true }))
   await proj.save()
 }
 
@@ -49,12 +49,12 @@ function genMethods(f: SourceFile): void {
     inputFile: 'InputFile',
   }
   f.addImportDeclaration({
-    moduleSpecifier: './types.gen.ts',
+    moduleSpecifier: './botApiTypes.gen.ts',
     isTypeOnly: true,
     namespaceImport: 'Types',
   })
   f.addImportDeclaration({
-    moduleSpecifier: '../InputFile.ts',
+    moduleSpecifier: './inputFile.ts',
     isTypeOnly: true,
     namedImports: ['InputFile'],
   })
@@ -93,7 +93,7 @@ function genMethods(f: SourceFile): void {
   }
 }
 
-function genBotApi(f: SourceFile): void {
+function genBotApiShape(f: SourceFile): void {
   f.addImportDeclarations([
     {
       isTypeOnly: true,
@@ -104,7 +104,7 @@ function genBotApi(f: SourceFile): void {
   f.addInterface({
     isExported: true,
     isDefaultExport: false,
-    name: 'BotApi',
+    name: 'BotApiShape',
     properties: Object
       .values(methods)
       .map(({ name, description }) => ({

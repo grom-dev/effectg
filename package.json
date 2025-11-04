@@ -5,6 +5,7 @@
   "private": false,
   "scripts": {
     "gen": "bun run scripts/gen-bot-api.ts",
+    "typecheck": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

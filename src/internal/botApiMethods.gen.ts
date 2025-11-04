@@ -1,5 +1,5 @@
-import type { InputFile } from '../InputFile.ts'
-import type * as Types from './types.gen.ts'
+import type * as Types from './botApiTypes.gen.ts'
+import type { InputFile } from './inputFile.ts'
 
 export interface MethodParams {
   getUpdates: void | {
