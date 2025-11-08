@@ -20,8 +20,8 @@
   },
   "scripts": {
     "gen:bot-api": "bun run scripts/gen-bot-api.ts",
-    "typecheck": "tsc --build --noEmit",
-    "build": "tsc --build",
+    "typecheck": "tsc --build --noEmit tsconfig.json",
+    "build": "tsc --project tsconfig.lib.json",
     "deps": "taze --write --interactive --include-locked minor",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

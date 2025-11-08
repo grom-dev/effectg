@@ -4,7 +4,6 @@
     "target": "esnext",
     "lib": ["ESNext"],
     "moduleDetection": "force",
-    "rootDir": ".",
     "module": "esnext",
     "moduleResolution": "bundler",
     "typeRoots": ["node_modules/@types"],
