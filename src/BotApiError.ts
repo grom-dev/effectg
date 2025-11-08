@@ -1,4 +1,4 @@
-import type * as Types from './internal/botApiTypes.gen'
+import type * as Types from './internal/botApiTypes.gen.js'
 import * as Data from 'effect/Data'
 
 /**

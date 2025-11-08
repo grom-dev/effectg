@@ -1,7 +1,9 @@
-import type { BotApiShape } from './internal/botApiShape.gen'
+import type { BotApiShape } from './internal/botApiShape.gen.js'
 import * as Context from 'effect/Context'
-import * as Layer from 'effect/Layer'
-import * as internal from './internal/botApi'
+import * as internal from './internal/botApi.js'
+
+export type { MethodParams, MethodResults } from './internal/botApiMethods.gen.js'
+export type * as Types from './internal/botApiTypes.gen.js'
 
 export class BotApi extends Context.Tag('@grom.js/effectg/BotApi')<
   BotApi,
@@ -9,4 +11,3 @@ export class BotApi extends Context.Tag('@grom.js/effectg/BotApi')<
 >() {}
 
 export const make = internal.make
-export const layer = Layer.effect(BotApi, make)

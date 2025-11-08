@@ -1,5 +1,5 @@
-import type * as Types from './botApiTypes.gen.ts'
-import type { InputFile } from './inputFile.ts'
+import type * as Types from './botApiTypes.gen.js'
+import type { InputFile } from './inputFile.js'
 
 export interface MethodParams {
   getUpdates: void | {

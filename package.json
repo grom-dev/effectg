@@ -2,25 +2,46 @@
   "name": "@grom.js/effectg",
   "type": "module",
   "version": "0.1.0",
-  "private": false,
+  "packageManager": "bun@1.3.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grom-dev/effectg.git"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist/"],
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "gen": "bun run scripts/gen-bot-api.ts",
-    "typecheck": "tsc",
+    "gen:bot-api": "bun run scripts/gen-bot-api.ts",
+    "typecheck": "tsc --build --noEmit",
+    "build": "tsc --build",
+    "deps": "taze --write --interactive --include-locked minor",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "release": "bumpp"
   },
   "dependencies": {
-    "@effect/platform": "^0.91.1",
-    "@effect/platform-bun": "^0.80.0",
-    "effect": "^3.17.14"
+    "@effect/platform": "0.93.0",
+    "@effect/platform-bun": "0.83.0",
+    "effect": "3.19.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.4.1",
-    "@grom.js/bot-api-spec": "^0.4.1",
-    "@types/bun": "latest",
-    "eslint": "^9.36.0",
-    "eslint-plugin-format": "^1.0.1",
-    "ts-morph": "^27.0.0",
-    "typescript": "^5.9.3"
+    "@antfu/eslint-config": "6.2.0",
+    "@grom.js/bot-api-spec": "0.4.1",
+    "@types/bun": "1.3.1",
+    "@types/node": "^22.19.0",
+    "bumpp": "10.3.1",
+    "eslint": "9.39.1",
+    "eslint-plugin-format": "1.0.2",
+    "taze": "19.9.0",
+    "ts-morph": "27.0.2",
+    "typescript": "5.9.3"
   }
 }

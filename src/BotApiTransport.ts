@@ -1,9 +1,8 @@
 import type * as Effect from 'effect/Effect'
-import type { BotApiTransportError } from './BotApiTransportError'
-import type * as Types from './internal/botApiTypes.gen'
-import { Layer } from 'effect'
+import type { BotApiTransportError } from './BotApiTransportError.js'
+import type * as Types from './internal/botApiTypes.gen.js'
 import * as Context from 'effect/Context'
-import * as internal from './internal/botApiTransport'
+import * as internal from './internal/botApiTransport.js'
 
 export class BotApiTransport extends Context.Tag('@grom.js/effectg/BotApiTransport')<
   BotApiTransport,
@@ -33,16 +32,14 @@ export type BotApiResponse
 
 export const makeWith = internal.makeWith
 
-export const layerProd = (token: string) => Layer.effect(
-  BotApiTransport,
+export const makeProd = (token: string) => (
   makeWith({
     makeUrl: method => new URL(`https://api.telegram.org/bot${token}/${method}`),
-  }),
+  })
 )
 
-export const layerTest = (token: string) => Layer.effect(
-  BotApiTransport,
+export const makeTest = (token: string) => (
   makeWith({
     makeUrl: method => new URL(`https://api.telegram.org/bot${token}/test/${method}`),
-  }),
+  })
 )

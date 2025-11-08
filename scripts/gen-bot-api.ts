@@ -7,7 +7,7 @@ async function main() {
   const proj = new Project()
   genTypes(proj.createSourceFile('./src/internal/botApiTypes.gen.ts', {}, { overwrite: true }))
   genMethods(proj.createSourceFile('./src/internal/botApiMethods.gen.ts', {}, { overwrite: true }))
-  genBotApiShape(proj.createSourceFile('./src/internal/botApiShape.gen.ts', {}, { overwrite: true }))
+  genShape(proj.createSourceFile('./src/internal/botApiShape.gen.ts', {}, { overwrite: true }))
   await proj.save()
 }
 
@@ -49,12 +49,12 @@ function genMethods(f: SourceFile): void {
     inputFile: 'InputFile',
   }
   f.addImportDeclaration({
-    moduleSpecifier: './botApiTypes.gen.ts',
+    moduleSpecifier: './botApiTypes.gen.js',
     isTypeOnly: true,
     namespaceImport: 'Types',
   })
   f.addImportDeclaration({
-    moduleSpecifier: './inputFile.ts',
+    moduleSpecifier: './inputFile.js',
     isTypeOnly: true,
     namedImports: ['InputFile'],
   })
@@ -93,12 +93,12 @@ function genMethods(f: SourceFile): void {
   }
 }
 
-function genBotApiShape(f: SourceFile): void {
+function genShape(f: SourceFile): void {
   f.addImportDeclarations([
     {
       isTypeOnly: true,
       namedImports: ['BotApiMethod'],
-      moduleSpecifier: './botApiMethod',
+      moduleSpecifier: './botApiMethod.js',
     },
   ])
   f.addInterface({
