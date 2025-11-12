@@ -15,9 +15,6 @@
     "url": "https://github.com/grom-dev/effect-tg.git"
   },
   "keywords": ["effect", "telegram"],
-  "publishConfig": {
-    "provenance": true
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
