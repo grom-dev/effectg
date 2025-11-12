@@ -1,10 +1,10 @@
 import type * as Effect from 'effect/Effect'
-import type { BotApiTransportError } from './BotApiTransportError.js'
-import type * as Types from './internal/botApiTypes.gen.js'
+import type * as Types from './internal/botApiTypes.gen.ts'
 import * as Context from 'effect/Context'
-import * as internal from './internal/botApiTransport.js'
+import * as Data from 'effect/Data'
+import * as internal from './internal/botApiTransport.ts'
 
-export class BotApiTransport extends Context.Tag('@grom.js/effectg/BotApiTransport')<
+export class BotApiTransport extends Context.Tag('@grom.js/effect-tg/BotApiTransport')<
   BotApiTransport,
   {
     sendRequest: (
@@ -29,6 +29,13 @@ export type BotApiResponse
     description: string
     parameters?: Types.ResponseParameters
   }
+
+/**
+ * Error caused by the transport when accessing Bot API.
+ */
+export class BotApiTransportError extends Data.TaggedError('@grom.js/effect-tg/BotApiTransportError')<{
+  cause: unknown
+}> {}
 
 export const makeWith = internal.makeWith
 

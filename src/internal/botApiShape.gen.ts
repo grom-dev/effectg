@@ -1,4 +1,4 @@
-import type { BotApiMethod } from './botApiMethod.js'
+import type { BotApiMethod } from './botApiMethod.ts'
 
 export interface BotApiShape {
   /**

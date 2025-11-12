@@ -49,12 +49,12 @@ function genMethods(f: SourceFile): void {
     inputFile: 'InputFile',
   }
   f.addImportDeclaration({
-    moduleSpecifier: './botApiTypes.gen.js',
+    moduleSpecifier: './botApiTypes.gen.ts',
     isTypeOnly: true,
     namespaceImport: 'Types',
   })
   f.addImportDeclaration({
-    moduleSpecifier: './inputFile.js',
+    moduleSpecifier: '../InputFile.ts',
     isTypeOnly: true,
     namedImports: ['InputFile'],
   })
@@ -98,7 +98,7 @@ function genShape(f: SourceFile): void {
     {
       isTypeOnly: true,
       namedImports: ['BotApiMethod'],
-      moduleSpecifier: './botApiMethod.js',
+      moduleSpecifier: './botApiMethod.ts',
     },
   ])
   f.addInterface({
