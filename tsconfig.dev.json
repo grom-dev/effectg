@@ -4,11 +4,11 @@
     "target": "esnext",
     "lib": ["ESNext"],
     "moduleDetection": "force",
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "typeRoots": ["node_modules/@types"],
-    "types": ["bun"],
-    "allowImportingTsExtensions": false,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "checkJs": true,
     "strict": true,
@@ -17,14 +17,17 @@
     "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
+    "rewriteRelativeImportExtensions": true,
     "noUnusedParameters": true,
-    "declaration": false,
-    "declarationMap": false,
-    "emitDeclarationOnly": false,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "skipLibCheck": true
   },
-  "include": ["./*", "./scripts/*"]
+  "include": [
+    "./*.ts",
+    "./*.js",
+    "./scripts/*.ts"
+  ]
 }

@@ -1,13 +1,13 @@
-import type * as Types from './botApiTypes.gen.js'
+import type { Types } from './BotApi.ts'
 
-export type ReplyMarkup
+export type Markup
   = | InlineKeyboard
     | ReplyKeyboard
     | ForceReply
 
 /** @todo */
 export class InlineKeyboard {
-  get sendParams(): { reply_markup: Types.InlineKeyboardMarkup } {
+  sendParams(): { reply_markup: Types.InlineKeyboardMarkup } {
     return {
       reply_markup: {
         inline_keyboard: [],
@@ -18,7 +18,7 @@ export class InlineKeyboard {
 
 /** @todo */
 export class ReplyKeyboard {
-  get sendParams(): { reply_markup: Types.ReplyKeyboardMarkup | Types.ReplyKeyboardRemove } {
+  sendParams(): { reply_markup: Types.ReplyKeyboardMarkup | Types.ReplyKeyboardRemove } {
     if (false) {
       return {
         reply_markup: {
@@ -41,7 +41,7 @@ export class ReplyKeyboard {
 
 /** @todo */
 export class ForceReply {
-  get sendParams(): { reply_markup: Types.ForceReply } {
+  sendParams(): { reply_markup: Types.ForceReply } {
     return {
       reply_markup: {
         force_reply: true,

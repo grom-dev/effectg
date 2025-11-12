@@ -1,7 +1,7 @@
-import type { BotApiTransport } from '../BotApiTransport.js'
-import type { BotApiShape } from './botApiShape.gen.js'
+import type { BotApiTransport } from '../BotApiTransport.ts'
+import type { BotApiShape } from './botApiShape.gen.ts'
 import * as Effect from 'effect/Effect'
-import { BotApiError } from '../BotApiError.js'
+import { BotApiError } from '../BotApi.ts'
 
 export const make = (options: {
   transport: typeof BotApiTransport.Service

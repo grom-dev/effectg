@@ -16,13 +16,13 @@ From grammY:
 
 Let's rename `Composer` to `Router` and `Middleware` to `Handler`.
 
-### Long polling runner
-
-Implement an efficient runner (similar to grammY runner) that would fetch and process incoming updates using long polling.
-
 ### File uploads
 
 In `BotApiTransport`, add support for handling requests with `InputFile`s inside and transoforming them to `form-data` HTTP requests for uploading files to Bot API.
+
+### Long polling runner
+
+Implement an efficient runner (similar to grammY runner) that would fetch and process incoming updates using long polling.
 
 ### FSM
 

@@ -9,7 +9,7 @@
     "moduleResolution": "node16",
     "typeRoots": ["node_modules/@types"],
     "types": ["node"],
-    "allowImportingTsExtensions": false,
+    "allowImportingTsExtensions": true,
     "allowJs": false,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -19,6 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "declaration": true,
+    "rewriteRelativeImportExtensions": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "noEmit": false,
@@ -27,5 +28,5 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": ["src/*"]
+  "include": ["src/**/*.ts"]
 }

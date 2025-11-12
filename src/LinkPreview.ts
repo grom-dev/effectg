@@ -1,15 +1,16 @@
-import type * as Types from './botApiTypes.gen.js'
+import type { Types } from './BotApi.ts'
 import * as Data from 'effect/Data'
+import * as Option from 'effect/Option'
 
 export class LinkPreview extends Data.Class<{
-  url?: string
-  position?: 'above' | 'below'
-  mediaSize?: 'large' | 'small'
+  url: Option.Option<string>
+  position: 'above' | 'below'
+  mediaSize: 'large' | 'small'
 }> {
-  get options(): Types.LinkPreviewOptions {
+  options(): Types.LinkPreviewOptions {
     const opts: Types.LinkPreviewOptions = { is_disabled: false }
-    if (this.url) {
-      opts.url = this.url
+    if (Option.isSome(this.url)) {
+      opts.url = this.url.value
     }
     if (this.position === 'above') {
       opts.show_above_text = true

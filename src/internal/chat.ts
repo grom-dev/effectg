@@ -1,73 +1,8 @@
-import type { MethodParams } from './botApiMethods.gen.js'
-import * as Data from 'effect/Data'
+import type { MethodParams } from './botApiMethods.gen.ts'
 
-export type Chat
-  = | PeerUser
-    | PeerGroup
-    | PeerChannel
-    | PeerSupergroup
-    | PublicChannel
-    | PublicSupergroup
-    | ForumTopic
-    | ChannelDm
+type SendParams = Pick<MethodParams['sendMessage'], 'chat_id' | 'message_thread_id' | 'direct_messages_topic_id'>
 
-export class PeerUser extends makePeer({
-  validatePeerId: id => (id >= 1 && id <= 0xFFFFFFFFFF),
-  peerIdToDialogId: id => id,
-}) {}
-
-export class PeerGroup extends makePeer({
-  validatePeerId: id => (id >= 1 && id <= 999999999999),
-  peerIdToDialogId: id => -id,
-}) {}
-
-export class PeerChannel extends makePeer({
-  validatePeerId: id => (id >= 1 && id <= 997852516352),
-  peerIdToDialogId: id => -(1000000000000 + id),
-}) {}
-
-export class PeerSupergroup extends makePeer({
-  validatePeerId: id => (id >= 1 && id <= 997852516352),
-  peerIdToDialogId: id => -(1000000000000 + id),
-}) {}
-
-export class PublicChannel extends Data.Class<{ username: string }> {
-  get sendParams(): SendParams {
-    return { chat_id: this.username }
-  }
-}
-
-export class PublicSupergroup extends Data.Class<{ username: string }> {
-  get sendParams(): SendParams {
-    return { chat_id: this.username }
-  }
-}
-
-export class ForumTopic extends Data.Class<{
-  forum: PeerSupergroup | PublicSupergroup
-  topicId: number
-}> {
-  get sendParams(): SendParams {
-    return {
-      ...this.forum.sendParams,
-      message_thread_id: this.topicId,
-    }
-  }
-}
-
-export class ChannelDm extends Data.Class<{
-  channel: PeerChannel | PublicChannel
-  userId: number
-}> {
-  get sendParams(): SendParams {
-    return {
-      ...this.channel.sendParams,
-      direct_messages_topic_id: this.userId,
-    }
-  }
-}
-
-function makePeer({
+export function Peer({
   validatePeerId,
   peerIdToDialogId,
 }: {
@@ -76,7 +11,7 @@ function makePeer({
 }): new (options: { id: number }) => {
   readonly id: number
   readonly dialogId: number
-  get sendParams(): SendParams
+  sendParams: () => SendParams
 } {
   class PeerImpl {
     public readonly id: number
@@ -93,11 +28,9 @@ function makePeer({
       this.dialogId = peerIdToDialogId(id)
     }
 
-    public get sendParams(): SendParams {
+    public sendParams(): SendParams {
       return { chat_id: this.dialogId }
     }
   }
   return PeerImpl
 }
-
-type SendParams = Pick<MethodParams['sendMessage'], 'chat_id' | 'message_thread_id' | 'direct_messages_topic_id'>
