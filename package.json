@@ -1,7 +1,7 @@
 {
   "name": "@grom.js/effect-tg",
   "type": "module",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "packageManager": "pnpm@10.22.0",
   "description": "Effectful library for crafting Telegram bots.",
   "author": {
