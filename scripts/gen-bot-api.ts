@@ -54,7 +54,7 @@ function genMethods(f: SourceFile): void {
     namespaceImport: 'Types',
   })
   f.addImportDeclaration({
-    moduleSpecifier: './InputFile.ts',
+    moduleSpecifier: '../InputFile.ts',
     isTypeOnly: true,
     namedImports: ['InputFile'],
   })
