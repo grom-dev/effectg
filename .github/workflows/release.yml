@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish-npm:
-    name: Build and Publish to npmjs.com
+    name: Build and Publish to npm
     permissions:
       id-token: write
       contents: read
@@ -26,4 +26,5 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
+      - run: npm --version
       - run: pnpm publish --access=public --provenance --no-git-checks
