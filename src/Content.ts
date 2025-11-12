@@ -43,7 +43,7 @@ export class Photo extends Data.TaggedClass('photo')<{
   file: InputFile
   caption: Option.Option<Text>
   layout: 'caption-above' | 'caption-below'
-  hideWithSpoiler: boolean
+  spoiler: boolean
 }> {
   sendParams(): Pick<MethodParams['sendPhoto'], 'photo' | 'caption' | 'caption_entities' | 'parse_mode' | 'show_caption_above_media' | 'has_spoiler'> {
     const {
@@ -60,7 +60,7 @@ export class Photo extends Data.TaggedClass('photo')<{
       caption_entities,
       parse_mode,
       show_caption_above_media: this.layout === 'caption-above',
-      has_spoiler: this.hideWithSpoiler,
+      has_spoiler: this.spoiler,
     }
   }
 }
