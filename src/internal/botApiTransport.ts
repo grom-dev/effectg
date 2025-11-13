@@ -1,12 +1,14 @@
-import type { BotApiResponse, BotApiTransport } from '../BotApiTransport.ts'
+import type { BotApiResponse } from '../BotApiTransport.ts'
 import * as HttpBody from '@effect/platform/HttpBody'
 import * as HttpClient from '@effect/platform/HttpClient'
 import * as Effect from 'effect/Effect'
-import { BotApiTransportError } from '../BotApiTransport.ts'
+import * as Layer from 'effect/Layer'
+import { BotApiTransport, BotApiTransportError } from '../BotApiTransport.ts'
 
-export const makeWith = (options: {
+export const layerWith = (options: {
   makeUrl: (method: string) => URL
-}) => (
+}) => Layer.effect(
+  BotApiTransport,
   Effect.gen(function* () {
     const { makeUrl } = options
     const client = yield* HttpClient.HttpClient
@@ -29,5 +31,5 @@ export const makeWith = (options: {
       ),
     }
     return transport
-  })
+  }),
 )

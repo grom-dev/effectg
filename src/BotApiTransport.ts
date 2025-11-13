@@ -37,16 +37,16 @@ export class BotApiTransportError extends Data.TaggedError('@grom.js/effect-tg/B
   cause: unknown
 }> {}
 
-export const makeWith = internal.makeWith
+export const layerWith = internal.layerWith
 
-export const makeProd = (token: string) => (
-  makeWith({
+export const layerProd = (token: string) => (
+  layerWith({
     makeUrl: method => new URL(`https://api.telegram.org/bot${token}/${method}`),
   })
 )
 
-export const makeTest = (token: string) => (
-  makeWith({
+export const layerTest = (token: string) => (
+  layerWith({
     makeUrl: method => new URL(`https://api.telegram.org/bot${token}/test/${method}`),
   })
 )
