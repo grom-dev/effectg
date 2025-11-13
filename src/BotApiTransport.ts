@@ -2,6 +2,7 @@ import type * as Effect from 'effect/Effect'
 import type * as Types from './internal/botApiTypes.gen.ts'
 import * as Context from 'effect/Context'
 import * as Data from 'effect/Data'
+import * as Layer from 'effect/Layer'
 import * as internal from './internal/botApiTransport.ts'
 
 export class BotApiTransport extends Context.Tag('@grom.js/effect-tg/BotApiTransport')<
@@ -37,7 +38,9 @@ export class BotApiTransportError extends Data.TaggedError('@grom.js/effect-tg/B
   cause: unknown
 }> {}
 
-export const layerWith = internal.layerWith
+export const layerWith = (options: {
+  makeUrl: (method: string) => URL
+}) => Layer.effect(BotApiTransport, internal.makeWith(options))
 
 export const layerProd = (token: string) => (
   layerWith({

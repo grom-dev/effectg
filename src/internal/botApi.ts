@@ -1,36 +1,32 @@
 import type { BotApiShape } from './botApiShape.gen.ts'
 import * as Effect from 'effect/Effect'
-import * as Layer from 'effect/Layer'
-import { BotApi, BotApiError } from '../BotApi.ts'
+import { BotApiError } from '../BotApi.ts'
 import { BotApiTransport } from '../BotApiTransport.ts'
 
-export const layer = Layer.effect(
-  BotApi,
-  Effect.gen(function* () {
-    const transport = yield* BotApiTransport
-    const botApi = new Proxy({}, {
-      get: (_target, prop) => {
-        if (typeof prop !== 'string') {
-          return
-        }
-        const method = prop
-        return (params: void | Record<string, unknown> = {}) => (
-          Effect.gen(function* () {
-            const response = yield* transport.sendRequest(method, params)
-            if (response.ok) {
-              return response.result
-            }
-            yield* Effect.fail(
-              new BotApiError({
-                code: response.error_code,
-                description: response.description,
-                parameters: response.parameters,
-              }),
-            )
-          })
-        )
-      },
-    })
-    return botApi as BotApiShape
-  }),
-)
+export const make = Effect.gen(function* () {
+  const transport = yield* BotApiTransport
+  const botApi = new Proxy({}, {
+    get: (_target, prop) => {
+      if (typeof prop !== 'string') {
+        return
+      }
+      const method = prop
+      return (params: void | Record<string, unknown> = {}) => (
+        Effect.gen(function* () {
+          const response = yield* transport.sendRequest(method, params)
+          if (response.ok) {
+            return response.result
+          }
+          yield* Effect.fail(
+            new BotApiError({
+              code: response.error_code,
+              description: response.description,
+              parameters: response.parameters,
+            }),
+          )
+        })
+      )
+    },
+  })
+  return botApi as BotApiShape
+})

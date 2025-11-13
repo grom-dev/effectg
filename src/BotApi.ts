@@ -1,10 +1,10 @@
-import type * as Layer from 'effect/Layer'
 import type { BotApiTransport } from './BotApiTransport.ts'
 import type { MethodParams, MethodResults } from './internal/botApiMethods.gen.ts'
 import type { BotApiShape } from './internal/botApiShape.gen.ts'
 import type * as Types from './internal/botApiTypes.gen.ts'
 import * as Context from 'effect/Context'
 import * as Data from 'effect/Data'
+import * as Layer from 'effect/Layer'
 import * as internal from './internal/botApi.ts'
 
 export type { MethodParams, MethodResults, Types }
@@ -27,4 +27,8 @@ export class BotApiError extends Data.TaggedError('@grom.js/effect-tg/BotApiErro
   }
 }
 
-export const layer: Layer.Layer<BotApi, never, BotApiTransport> = internal.layer
+export const layer: Layer.Layer<
+  BotApi,
+  never,
+  BotApiTransport
+> = Layer.effect(BotApi, internal.make)
