@@ -14,7 +14,10 @@
     "type": "git",
     "url": "https://github.com/grom-dev/effect-tg.git"
   },
-  "keywords": ["effect", "telegram"],
+  "keywords": [
+    "effect",
+    "telegram"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -38,6 +41,7 @@
   },
   "peerDependencies": {
     "@effect/platform": "^0.93.1",
+    "@grom.js/tgx": "^0.5.2",
     "effect": "^3.19.3"
   },
   "devDependencies": {
