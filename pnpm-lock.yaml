@@ -11,6 +11,9 @@ importers:
       '@effect/platform':
         specifier: ^0.93.1
         version: 0.93.1(effect@3.19.3)
+      '@grom.js/tgx':
+        specifier: ^0.5.2
+        version: 0.5.2
       effect:
         specifier: ^3.19.3
         version: 3.19.3
@@ -279,6 +282,10 @@ packages:
 
   '@grom.js/bot-api-spec@0.4.1':
     resolution: {integrity: sha512-DWMOpAfmE99QeyOWFSGK41lHTwF08tQElyE3H8igvTRCOUC+jSvNC9fkrY91NQOH+BdhBxRWnTubwi0yk59C+Q==}
+
+  '@grom.js/tgx@0.5.2':
+    resolution: {integrity: sha512-dgdFzOvIz4oKCI70HI8PQNb2Mq0Z5CzR2Objbf4QYS+MEcBIEyMxnHRzgibVcjFIFx99xfZHZxROCLFlTILb0Q==}
+    engines: {node: 22.x}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -2050,6 +2057,8 @@ snapshots:
       levn: 0.4.1
 
   '@grom.js/bot-api-spec@0.4.1': {}
+
+  '@grom.js/tgx@0.5.2': {}
 
   '@humanfs/core@0.19.1': {}
 
